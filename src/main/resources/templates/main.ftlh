@@ -4,6 +4,8 @@
 <@c.page>
     <div>
         <@l.logout/>
+        <br>
+        <span><a href="/user">User list</a></span>
     </div>
     <br>
     <div>
