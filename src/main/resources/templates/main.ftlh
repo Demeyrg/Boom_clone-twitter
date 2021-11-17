@@ -1,12 +1,6 @@
 <#import "parts/common.ftlh" as c>
-<#import "parts/login.ftlh" as l>
 
 <@c.page>
-    <div>
-        <@l.logout/>
-        <br>
-        <span><a href="/user">User list</a></span>
-    </div>
     <br>
     <div>
         <form method="post" enctype="multipart/form-data">
