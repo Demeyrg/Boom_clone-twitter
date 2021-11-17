@@ -2,6 +2,18 @@
 
 <@c.page>
     <br>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <form method="get" action="/main" class="form-inline">
+                <label for="inputTag">Search by tag</label>
+                <input type="text" name="filter" class="form-control mr-2 ml-2" id="inputTag" value="${filter?if_exists}" placeholder="Enter the tag">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <br>
+
     <div>
         <form method="post" enctype="multipart/form-data">
             <input type="text" name="text" placeholder="Введите сообщение"/>
@@ -14,11 +26,7 @@
     <br>
     <div>Список сообщений:</div>
     <br>
-    <form method="get" action="/main">
-        <input type="text" name="filter" value="${filter?if_exists}" placeholder="Введите Тэг">
-        <button type="submit">Найти</button>
-    </form>
-    <br>
+
     <#list messages as message>
         <div>
             <b>${message.id}</b>
