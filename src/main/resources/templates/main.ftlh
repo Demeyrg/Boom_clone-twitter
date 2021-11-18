@@ -47,7 +47,7 @@
 
     <br>
 
-    <div>Список сообщений:</div>
+    <h2 align="center">All messages:</h2>
     <br>
 
     <div class="card-columns">
