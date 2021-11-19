@@ -3,16 +3,21 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> User Name: </label>
             <div class="col-sm-5">
-                <input type="text" name="username" minlength="3" required class="form-control"
-                       placeholder="Enter email"/>
+                <input type="text" name="username" minlength="3" required class="form-control" placeholder="User name"/>
             </div>
         </div>
-
+        <#if isRegisterForm>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"> Email: </label>
+                <div class="col-sm-5">
+                    <input type="email" name="email" minlength="3" class="form-control" placeholder="some@some.com"/>
+                </div>
+            </div>
+        </#if>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> Password: </label>
             <div class="col-sm-5">
-                <input type="password" pattern="[a-zA-Z1-9]{3,20}" name="password" required class="form-control"
-                       placeholder="Password"/>
+                <input type="password" pattern="[a-zA-Z1-9]{3,20}" name="password" required class="form-control" placeholder="Password"/>
             </div>
         </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}">
