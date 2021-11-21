@@ -26,7 +26,6 @@ public class RegistrationController {
             model.addAttribute("message", "User exists!");
             return "registration";
         }
-
         return "redirect:/login";
     }
 
