@@ -1,9 +1,12 @@
 package com.example.boom.entity;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -14,11 +17,18 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Username cannot be empty")
     private String username;
+    @NotBlank(message = "Password cannot be empty")
     private String password;
+    @Transient
+    private String passwordTwo;
     private boolean active;
 
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email is not correct")
     private String email;
+
     private String activationCode;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -80,6 +90,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordTwo() {
+        return passwordTwo;
+    }
+
+    public void setPasswordTwo(String passwordTwo) {
+        this.passwordTwo = passwordTwo;
     }
 
     public boolean isActive() {

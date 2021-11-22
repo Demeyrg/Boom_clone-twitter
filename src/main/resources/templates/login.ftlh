@@ -2,7 +2,13 @@
 <#import "parts/login.ftlh" as l>
 
 <@c.page>
-    ${message?if_exists}
+
+    <#if RequestParameters.error??>
+        <div class="alert alert-danger" role="alert">
+            ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
+        </div>
+    </#if>
+
 <h2>Log In</h2>
 <br>
     <@l.login "/login" false/>
