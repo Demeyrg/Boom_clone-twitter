@@ -1,6 +1,3 @@
-<#--${(usernameError??)?string('is-invalid','')}-->
-<#--<#if (map['usernameError'])??>is-invalid</#if>-->
-
 <#macro login path isRegisterForm>
     <form action="${path}" method="post">
         <div class="form-group row">
@@ -22,8 +19,8 @@
                 <label class="col-sm-2 col-form-label"> Email: </label>
                 <div class="col-sm-5">
                     <input type="email" name="email" value="<#if user??>${user.email}</#if>"
-                    class="form-control ${(emailError??)?string('is-invalid','')}"
-                    placeholder="some@some.com"/>
+                           class="form-control ${(emailError??)?string('is-invalid','')}"
+                           placeholder="some@some.com"/>
                     <#if emailError??>
                         <div class="invalid-feedback">
                             ${emailError}
@@ -61,13 +58,16 @@
                     </#if>
                 </div>
             </div>
-            <div class="col-sm-5 mb-2">
-                <div class="g-recaptcha" data-sitekey="6LeIF1gdAAAAAEIkYow6FJYpDX3cIvyLWmcdf2b_"></div>
-                <#if captchaError??>
-                    <div class="alert alert-danger" role="alert">
-                        ${captchaError}
-                    </div>
-                </#if>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-5 mb-2">
+                    <div class="g-recaptcha" data-sitekey="6LeIF1gdAAAAAEIkYow6FJYpDX3cIvyLWmcdf2b_"></div>
+                    <#if captchaError??>
+                        <div class="alert alert-danger mt-1" role="alert">
+                            ${captchaError}
+                        </div>
+                    </#if>
+                </div>
             </div>
         </#if>
 
