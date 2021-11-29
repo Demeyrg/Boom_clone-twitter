@@ -100,7 +100,7 @@ public class UserService implements UserDetailsService {
         String userEmail = user.getEmail();
 
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
-                (email != null && !userEmail.equals(email));
+                (userEmail != null && !userEmail.equals(email));
 
         if (isEmailChanged) {
             user.setEmail(email);
@@ -125,8 +125,8 @@ public class UserService implements UserDetailsService {
             String message = String.format(
                     "Hello, %s! \n" +
                             "Welcome to BOOM. Please, visit next link: http://%s/activate/%s",
-                    hostname,
                     user.getUsername(),
+                    hostname,
                     user.getActivationCode()
             );
             mailSender.send(user.getEmail(),"BOOM activation code", message);
