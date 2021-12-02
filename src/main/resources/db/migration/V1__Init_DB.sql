@@ -1,7 +1,7 @@
 create sequence hibernate_sequence start 1 increment 1;
 
 create table message (
-    id SERIAL not null,
+    id int8 not null,
     filename varchar(255),
     tag varchar(255),
     text varchar(3000) not null,
@@ -10,12 +10,12 @@ create table message (
 );
 
 create table user_role (
-    user_id SERIAL not null,
+    user_id int8 not null,
     roles varchar(255)
 );
 
 create table usr (
-    id SERIAL not null,
+    id int8 not null,
     activation_code varchar(255),
     active boolean not null,
     email varchar(255),
@@ -32,9 +32,6 @@ alter table if exists user_role
     add constraint user_role_user_fk
     foreign key (user_id) references usr;
 
-insert into usr (username, password, active)
-values ('admin','adminSlava',true);
+insert into dceeu7dan8mogp.usr (username, password, active) values ('admin','admin',true);
 
-insert into user_role (user_id, roles)
-values ((select id from usr where username = 'admin'),'USER'),
-       ((select id from usr where username = 'admin'),'ADMIN');
+insert into dceeu7dan8mogp.user_role (user_id, roles) values ((select id from usr where username = 'admin'),'USER'), ((select id from usr where username = 'admin'),'ADMIN');
