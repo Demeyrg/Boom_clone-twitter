@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Please fill the message")
