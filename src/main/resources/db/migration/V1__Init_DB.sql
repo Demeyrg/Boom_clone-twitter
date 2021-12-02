@@ -31,3 +31,10 @@ alter table if exists message
 alter table if exists user_role
     add constraint user_role_user_fk
     foreign key (user_id) references usr;
+
+insert into usr (username, password, active)
+values ('admin','adminSlava',true);
+
+insert into user_role (user_id, roles)
+values ((select id from usr where username = 'admin'),'USER'),
+       ((select id from usr where username = 'admin'),'ADMIN');
