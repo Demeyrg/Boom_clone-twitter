@@ -33,3 +33,4 @@ alter table if exists boom.message
 alter table if exists boom.user_role
     add constraint user_role_user_fk
     foreign key (user_id) references usr;
+
