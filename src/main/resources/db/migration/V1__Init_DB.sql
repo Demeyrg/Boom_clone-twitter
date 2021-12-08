@@ -3,6 +3,7 @@ create sequence hibernate_sequence start 1 increment 1;
 create table Message (
     id bigserial not null,
     filename varchar(255),
+    img oid,
     tag varchar(255),
     text varchar(3000) not null,
     user_id int8,

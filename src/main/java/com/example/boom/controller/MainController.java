@@ -5,19 +5,21 @@ import com.example.boom.entity.User;
 import com.example.boom.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -72,24 +74,40 @@ public class MainController {
 
             if (file != null && !file.getOriginalFilename().isEmpty()) {
 
-                File uploadDir = new File(uploadPath);
-                if (uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFileName = uuidFile + "." + file.getOriginalFilename();
-
-                file.transferTo(new File(uploadPath + "/" + resultFileName));
-
+                message.setImg(file.getBytes());
+                String resultFileName = UUID.randomUUID().toString() + "." + file.getOriginalFilename();
                 message.setFilename(resultFileName);
+
             }
 
-            model.addAttribute("message", null);
+//            model.addAttribute("message", null);
             messageRepo.save(message);
         }
-
         Iterable<Message> messages = messageRepo.findAll();
         model.addAttribute("messages",messages);
         return "main";
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/img/messages/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] img(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
+
+        Optional<Message> messageSearchResult = messageRepo.findByFilename(name);
+        //Удали если что из репозитория метод
+        if(messageSearchResult.isPresent()) {
+            Message message = messageSearchResult.get();
+            if (message.getImg() != null  && message.getImg().length > 0){
+                byte[] img = message.getImg();
+
+                response.setContentType("image/jpeg");
+                response.setContentLength(img.length);
+                response.getOutputStream().write(img);
+
+                return message.getImg();
+            }
+        }
+        // если выполнение дошло до данной строки, значит ничего не было найдено
+        // выбрасываем 404
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image Not Found");
     }
 }
