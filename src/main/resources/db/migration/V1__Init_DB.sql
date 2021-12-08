@@ -1,4 +1,4 @@
-create sequence hibernate_sequence start 1 increment 1;
+-- create sequence hibernate_sequence start 1 increment 1;
 
 create table Message (
     id bigserial not null,
@@ -32,4 +32,9 @@ alter table if exists message
 alter table if exists user_role
     add constraint user_role_user_fk
     foreign key (user_id) references usr;
+
+insert into usr (username, password, active) values ('admin','$2a$08$IexSBLfmyABctl1b5t/hlue4Kw6/2gOmvm/cpNPAq.hy4xBxG4yI2',true);
+
+insert into user_role (user_id, roles) values ((select id from usr where username = 'admin'),'USER'),
+                                              ((select id from usr where username = 'admin'),'ADMIN');
 

@@ -76,7 +76,6 @@ public class MainController {
 
             }
 
-//            model.addAttribute("message", null);
             messageRepo.save(message);
         }
         Iterable<Message> messages = messageRepo.findAll();
