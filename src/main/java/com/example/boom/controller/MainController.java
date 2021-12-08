@@ -4,7 +4,6 @@ import com.example.boom.entity.Message;
 import com.example.boom.entity.User;
 import com.example.boom.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,9 +26,6 @@ public class MainController {
 
     @Autowired
     private MessageRepository messageRepo;
-
-    @Value("${upload.path}")
-    private String uploadPath;
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
