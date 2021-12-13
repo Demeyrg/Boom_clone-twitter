@@ -13,75 +13,12 @@
         </div>
     </div>
 
-    <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="#addNewMessage" role="button" aria-expanded="false"
-           aria-controls="#addNewMessage">
-            Add new Message
-        </a>
-    </p>
-
-    <div class="collapse <#if message??>show</#if>" id="addNewMessage">
-        <div class="form-group">
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <input type="text" name="text" class="form-control ${(textError??)?string('is-invalid','')}"
-                           placeholder="Add Message" value="<#if message??>${message.text}</#if>"/>
-                    <#if textError??>
-                        <div class="invalid-feedback">
-                            ${textError}
-                        </div>
-                    </#if>
-                </div>
-
-                <div class="form-group">
-                    <input type="text" name="tag" class="form-control ${(tagError??)?string('is-invalid','')}"
-                           placeholder="Add Tag" value="<#if message??>${message.tag}</#if>"/>
-                    <#if tagError??>
-                        <div class="invalid-feedback">
-                            ${tagError}
-                        </div>
-                    </#if>
-                </div>
-
-                <div class="form-group">
-                    <div class="custom-file">
-                        <input type="file" name="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
-                    </div>
-                </div>
-                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <br>
-
     <h2 align="center">All messages:</h2>
     <br>
 
-    <div class="card-columns">
-        <#list messages as message>
-            <div class="card my-3">
-                <#if message.filename??>
-                    <img class="card-img-top" src="img/messages/${message.filename}" alt="Card image cap"
-                         style="width:100%">
-                </#if>
+    <#include "parts/messageEdit.ftlh" />
 
-                <div class="m-2">
-                    <h5 class="card-title">${message.authorName}</h5>
-                    <p class="card-text">${message.text}</p>
-                </div>
-                <div class="card-footer text-muted">
-                    #${message.tag}
-                </div>
-            </div>
-        <#else>
-            No messages with this tag
-        </#list>
-    </div>
-
+    <#include "parts/messageList.ftlh" />
 
 </@c.page>

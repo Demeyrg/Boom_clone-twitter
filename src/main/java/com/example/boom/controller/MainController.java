@@ -19,12 +19,13 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Controller
 public class MainController {
 
-    @Autowired
+     @Autowired
     private MessageRepository messageRepo;
 
     @GetMapping("/")
@@ -85,7 +86,10 @@ public class MainController {
 
     @ResponseBody
     @GetMapping(value = "/img/messages/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] img(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
+    public byte[] img(
+            @PathVariable("name") String name,
+            HttpServletResponse response
+    ) throws IOException {
 
         Optional<Message> messageSearchResult = messageRepo.findByFilename(name);
         //Удали если что из репозитория метод
@@ -101,8 +105,20 @@ public class MainController {
                 return message.getImg();
             }
         }
-        // если выполнение дошло до данной строки, значит ничего не было найдено
-        // выбрасываем 404
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image Not Found");
+    }
+
+    @GetMapping(value = "/user-messages/{user}")
+    public String userMessages(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable User user,
+            Model model
+    ){
+        Set<Message> messages = user.getMessages();
+
+        model.addAttribute("messages",messages);
+        model.addAttribute("isCurrentUser",currentUser.equals(user));
+
+        return "userMessages";
     }
 }
