@@ -51,35 +51,41 @@ public class UserMessagesController {
     public String updateMessage(
             @AuthenticationPrincipal User currentUser,
             @PathVariable(name = "user") Long id,
-            @RequestParam(required = false,name = "id") Message message,
+            @RequestParam(required = false, name = "id") Message message,
             @RequestParam("text") String text,
             @RequestParam("tag") String tag,
             @RequestParam("file") MultipartFile file
-            ) throws IOException {
+    ) throws IOException {
         if (message == null) {
+            message = new Message();
+            message.setAuthor(currentUser);
+            message.setText(text);
+            message.setTag(tag);
+            saveFile(message,file);
+            messageRepo.save(message);
             return "redirect:/user-messages/" + id;
         }
 
-        if(message.getAuthor().equals(currentUser)) {
-
+        if (message.getAuthor().equals(currentUser)) {
             text = text.trim();
-            if(!ObjectUtils.isEmpty(message.getText()) && !text.equals("")){
+            if (!ObjectUtils.isEmpty(message.getText()) && !text.equals("")) {
                 message.setText(text);
             }
             tag = tag.trim();
-            if(!ObjectUtils.isEmpty(message.getTag()) && !tag.equals("")) {
+            if (!ObjectUtils.isEmpty(message.getTag()) && !tag.equals("")) {
                 message.setTag(tag);
             }
-
-                if (file != null && !file.getOriginalFilename().isEmpty()) {
-                message.setImg(file.getBytes());
-                String resultFileName = UUID.randomUUID().toString() + "." + file.getOriginalFilename();
-                message.setFilename(resultFileName);
-            }
+            saveFile(message,file);
             messageRepo.save(message);
         }
-
         return "redirect:/user-messages/" + id;
     }
 
+    private void saveFile(Message message, MultipartFile file) throws IOException {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            message.setImg(file.getBytes());
+            String resultFileName = UUID.randomUUID().toString() + "." + file.getOriginalFilename();
+            message.setFilename(resultFileName);
+        }
+    }
 }
