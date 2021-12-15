@@ -1,3 +1,4 @@
+<#include "security.ftlh">
 
 <p>
     <a class="btn btn-primary" data-toggle="collapse" href="#addNewMessage" role="button" aria-expanded="false"
@@ -36,7 +37,7 @@
                 </div>
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <input type="hidden" name="id" value="<#if message??>${message.id}</#if>"/>
+            <input type="hidden" name="id" value="<#if message??> ${message.id}<#else>-1</#if>"/>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Save message</button>
             </div>

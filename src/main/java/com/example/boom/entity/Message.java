@@ -16,6 +16,7 @@ public class Message {
     @Length(max = 3000, message = "Message too long (more than 3k)")
     private String text;
 
+    @NotBlank(message = "Please add tag")
     @Length(max = 255, message = "Message too long (more than 255)")
     private String tag;
 

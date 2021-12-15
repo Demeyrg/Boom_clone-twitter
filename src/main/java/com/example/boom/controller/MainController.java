@@ -19,13 +19,12 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Controller
 public class MainController {
 
-     @Autowired
+    @Autowired
     private MessageRepository messageRepo;
 
     @GetMapping("/")
@@ -47,7 +46,7 @@ public class MainController {
             messages = messageRepo.findAll();
         }
 
-        model.addAttribute("messages",messages);
+        model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
         return "main";
     }
@@ -58,11 +57,11 @@ public class MainController {
             @Valid Message message,
             BindingResult bindingResult,
             Model model,
-            @RequestParam("file")MultipartFile file
+            @RequestParam("file") MultipartFile file
     ) throws IOException {
         message.setAuthor(user);
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.addAttribute("message", message);
@@ -70,17 +69,15 @@ public class MainController {
         } else {
 
             if (file != null && !file.getOriginalFilename().isEmpty()) {
-
                 message.setImg(file.getBytes());
                 String resultFileName = UUID.randomUUID().toString() + "." + file.getOriginalFilename();
                 message.setFilename(resultFileName);
-
             }
 
             messageRepo.save(message);
         }
         Iterable<Message> messages = messageRepo.findAll();
-        model.addAttribute("messages",messages);
+        model.addAttribute("messages", messages);
         return "main";
     }
 
@@ -93,9 +90,9 @@ public class MainController {
 
         Optional<Message> messageSearchResult = messageRepo.findByFilename(name);
         //Удали если что из репозитория метод
-        if(messageSearchResult.isPresent()) {
+        if (messageSearchResult.isPresent()) {
             Message message = messageSearchResult.get();
-            if (message.getImg() != null  && message.getImg().length > 0){
+            if (message.getImg() != null && message.getImg().length > 0) {
                 byte[] img = message.getImg();
 
                 response.setContentType("image/jpeg");
@@ -108,17 +105,6 @@ public class MainController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image Not Found");
     }
 
-    @GetMapping(value = "/user-messages/{user}")
-    public String userMessages(
-            @AuthenticationPrincipal User currentUser,
-            @PathVariable User user,
-            Model model
-    ){
-        Set<Message> messages = user.getMessages();
 
-        model.addAttribute("messages",messages);
-        model.addAttribute("isCurrentUser",currentUser.equals(user));
 
-        return "userMessages";
-    }
 }
