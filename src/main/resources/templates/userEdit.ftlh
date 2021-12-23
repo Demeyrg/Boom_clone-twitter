@@ -2,7 +2,7 @@
 
 <@c.page>
     <h2>User editor</h2>
-    <br>
+    <br/>
     <form action="/user" method="post">
         <input type="text" name="username" value="${user.username}">
 

@@ -8,14 +8,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -56,6 +52,12 @@ public class UserMessagesController {
             @RequestParam("tag") String tag,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
+        text = text.trim();
+        tag = tag.trim();
+        if (text.equals("") || tag.equals("")) {
+            return "redirect:/user-messages/" + id;
+        }
+
         if (message == null) {
             message = new Message();
             message.setAuthor(currentUser);
@@ -67,11 +69,11 @@ public class UserMessagesController {
         }
 
         if (message.getAuthor().equals(currentUser)) {
-            text = text.trim();
+
             if (!ObjectUtils.isEmpty(message.getText()) && !text.equals("")) {
                 message.setText(text);
             }
-            tag = tag.trim();
+
             if (!ObjectUtils.isEmpty(message.getTag()) && !tag.equals("")) {
                 message.setTag(tag);
             }

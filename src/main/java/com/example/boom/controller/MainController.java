@@ -28,7 +28,7 @@ public class MainController {
     private MessageRepository messageRepo;
 
     @GetMapping("/")
-    public String greeting(Map<String, Object> model) {
+    public String greeting() {
         return "greeting";
     }
 
@@ -104,7 +104,5 @@ public class MainController {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image Not Found");
     }
-
-
 
 }

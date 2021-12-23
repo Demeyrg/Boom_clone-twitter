@@ -2,7 +2,7 @@
 
 <@c.page>
     <h2>List of users</h2>
-    <br>
+    <br/>
     <table>
         <thead>
         <tr>
