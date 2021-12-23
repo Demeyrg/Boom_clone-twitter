@@ -10,7 +10,7 @@ On the website you can:
 
 To publish the news, you need to register and confirm your email.
 
-###The site was created using:
+### The site was created using:
 
 Languages: Java
 
