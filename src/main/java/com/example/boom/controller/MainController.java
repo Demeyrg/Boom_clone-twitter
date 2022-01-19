@@ -68,7 +68,7 @@ public class MainController {
             model.mergeAttributes(errorsMap);
         } else {
 
-            if (file != null && !file.getOriginalFilename().isEmpty()) {
+            if (file != null && !file.getOriginalFilename().isEmpty() && file.getOriginalFilename().endsWith(".jpg")) {
                 message.setImg(file.getBytes());
                 String resultFileName = UUID.randomUUID().toString() + "." + file.getOriginalFilename();
                 message.setFilename(resultFileName);

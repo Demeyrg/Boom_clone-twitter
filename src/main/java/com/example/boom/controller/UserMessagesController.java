@@ -84,7 +84,7 @@ public class UserMessagesController {
     }
 
     private void saveFile(Message message, MultipartFile file) throws IOException {
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
+        if (file != null && !file.getOriginalFilename().isEmpty() && file.getOriginalFilename().endsWith(".jpg")) {
             message.setImg(file.getBytes());
             String resultFileName = UUID.randomUUID().toString() + "." + file.getOriginalFilename();
             message.setFilename(resultFileName);
